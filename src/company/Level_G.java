@@ -13,9 +13,9 @@ public class Level_G {
         String category = line.nextLine();
 
         Generation g = new Generation();
-        g.generate();
 
         Search s = new Search();
-        s.toSearch(date, category);
+
+        s.toSearch(date, category, g.generate());
     }
 }
