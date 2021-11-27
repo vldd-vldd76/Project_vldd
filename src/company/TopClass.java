@@ -1,6 +1,7 @@
 package company;
 
 public abstract class TopClass {
+    int index = 0;
     String type;
     String [] title;
     String [] authors;
