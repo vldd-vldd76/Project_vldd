@@ -3,18 +3,31 @@ package company;
 public class Search {
 
     void toSearch(String d, String c, TopClass [] tp) {
-        int indexB = 0;
-        int indexJ = 0;
-        int indexY = 0;
+        int index = 0;
 
-        TopClass [] type = {tp[0], tp[1], tp[2]};
-        String [] titleCategory = {"книги", "журналы", "ежегодники"};
+        if (d.contains("-")) {
+            String[] array = d.split("-");
+            int a1 = Integer.parseInt(array[0]);
+            int a2 = Integer.parseInt(array[1]);
 
-        if(c.contains("все")) {
-            if (d.contains("-")) {
-                String[] array = d.split("-");
-                int a1 = Integer.parseInt(array[0]);
-                int a2 = Integer.parseInt(array[1]);
+            if(c.contains("Все")) {
+                for (TopClass topClass : tp) {
+                    for (int k = 0; k < topClass.published.length; k++) {
+                        int b1;
+                        if (topClass.published[k].contains(",")) {
+                            String[] p = topClass.published[k].split(",");
+                            b1 = Integer.parseInt(p[1]);// twice instance of array is a year
+                        } else {
+                            b1 = Integer.parseInt(topClass.published[k]);
+                        }
+                        if (a1 <= b1 & b1 <= a2) {
+                            topClass.getInfo(k);
+                        } else {
+                            index++;
+                        }
+                    }
+                }
+                /*
 
                 for (int i = 0; i < tp[0].published.length; i++) {
                     int b1 = Integer.parseInt(tp[0].published[i]);
@@ -42,7 +55,29 @@ public class Search {
                         indexY++;
                     }
                 }
+
+               */
             } else {
+                for (TopClass topClass : tp) {
+                    if (topClass.type.contains(c)) {
+                        for (int k = 0; k < topClass.published.length; k++) {
+                            int b1;
+                            if (topClass.published[k].contains(",")) {
+                                String[] p = topClass.published[k].split(",");
+                                b1 = Integer.parseInt(p[1]);// twice instance of array is a year
+                            } else {
+                                b1 = Integer.parseInt(topClass.published[k]);
+                            }
+                            if (a1 <= b1 & b1 <= a2) {
+                                topClass.getInfo(k);
+                            } else {
+                                index++;
+                            }
+                        }
+                        break;
+                    }
+                }
+                /*
                 for (int i = 0; i < tp[0].published.length; i++) {
                     if (tp[0].published[i].contains(d)) {
                         tp[0].getInfo(i);
@@ -65,18 +100,36 @@ public class Search {
                     }
                 }
             }
-            if (indexB == tp[0].published.length & indexJ == tp[1].published.length & indexY == tp[2].published.length) {
-                System.out.println("к сожалению, мы ничего не смогли найти:(");
+                 */
             }
-        }else{
-            for(int i = 0; i < 3; i++) {
-                if(titleCategory[i].contains(c)) {
-                    for (int k = 0; k < type[i].published.length; k++) {
-                        type[i].getInfo(k);
+        }else {
+            if (c.contains("Все")) {
+
+                for (TopClass topClass : tp) {
+                    for (int k = 0; k < topClass.published.length; k++) {
+                        if(topClass.published[k].contains(d)) {
+                            topClass.getInfo(k);
+                        }else{
+                            index++;
+                        }
                     }
-                    break;
+                }
+            } else {
+                for (TopClass topClass : tp) {
+                    if (topClass.type.contains(c)) {
+                        for (int k = 0; k < topClass.published.length; k++) {
+                            if(topClass.published[k].contains(d)) {
+                                topClass.getInfo(k);
+                            }else{
+                                index++;
+                            }
+                        }
+                        break;
+                    }
                 }
             }
+        }
+        if (index == tp.length) {
             System.out.println("к сожалению, мы ничего не смогли найти:(");
         }
     }

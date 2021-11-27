@@ -9,7 +9,7 @@ public class Level_G {
         Scanner line = new Scanner(System.in);
         String date = line.nextLine();
 
-        System.out.println("Введите категорию(книги, журналы, ежегодники, все): ");
+        System.out.println("Введите категорию(Книги, Журналы, Ежегодники, Все): ");
         String category = line.nextLine();
 
         Generation g = new Generation();
