@@ -17,5 +17,6 @@ public class Level_G {
         Search s = new Search();
 
         s.toSearch(date, category, g.generate());
+
     }
 }
