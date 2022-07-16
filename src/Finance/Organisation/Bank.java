@@ -1,85 +1,145 @@
 package Finance.Organisation;
 
-public class Bank extends TopClass {
+import Finance.Interface.*;
 
+public class Bank extends BaseMethods implements ExchangeMethods, CreditMethods, InvestmentMethods, TransferMethods {
     String title;
     String address;
     String year;
-    double limit = 150000;//in uah
-    double commission = 15;//in uah
 
-    String [] titleCurrency = {"usd", "eur", "rub"};
-    double [] buyCurrency = {27.8, 32.02, 0.350};
-    double [] sellCurrency = {28.0, 32.30, 0.355};
+    double limitExchange;//in ua
+    double commissionExchange;//in uah
 
-    void introduceAnExchangeRate(String [] currency, double [] buyCurrency, double [] sellCurrency){
-        this.titleCurrency = currency;
-        this.buyCurrency = buyCurrency;
-        this.sellCurrency = sellCurrency;
-    }
+    double limitCredit;//ua
+    double commissionCredit;//%
 
+    double percentInvestment;
+    double periodInvestment;
 
+    double commissionPercentTransfer;//%
+    double commissionUahTransfer;//ua
 
-    void title (String title){
+    String [] titleCurrencies;
+    double [] buyCurrencies;
+    double [] sellCurrencies;
+
+    @Override
+    public void setData(String title, String address, String year){
         this.title = title;
-    }
-
-    void address(String address){
         this.address = address;
-    }
-
-    void year(String year){
         this.year = year;
     }
 
-    void changeFromUah (double amount, String csell, String cbuy) {
+    @Override
+    public void setDataExchange(double limit, double commission){
+        this.limitExchange = limit;
+        this.commissionExchange = commission;
+    }
+
+    @Override
+    public void setAnExchangeRate(String [] currency, double [] buyCurrency, double [] sellCurrency){
+        this.titleCurrencies = currency;
+        this.buyCurrencies = buyCurrency;
+        this.sellCurrencies = sellCurrency;
+    }
+
+    @Override
+    public void setDataCredit(double limit, double commission){
+        this.limitCredit = limit;
+        this.commissionCredit = commission;
+    }
+
+    @Override
+    public void setDataInvestment(double percentInvestment, double periodInvestment){
+        this.percentInvestment = percentInvestment;
+        this.periodInvestment = periodInvestment;
+    }
+
+    @Override
+    public void setDataTransfer(double commissionPercent, double commissionUah) {
+        this.commissionPercentTransfer = commissionPercent;
+        this.commissionUahTransfer = commissionUah;
+    }
+
+    @Override
+    public String [] getTitleCurrencies(){
+        return titleCurrencies;
+    }
+
+    @Override
+    public String getTitleCurrencies(int index){return titleCurrencies[index];}
+
+    @Override
+    public double changeFromUah (double amount, String buyCurrency) {
         double result = 0;
-        if(amount != limit) {
-            for (int i = 0; i < titleCurrency.length; i++) {
-                if (cbuy.contains(titleCurrency[i])) {
-                    result = (amount - commission) / buyCurrency[i];
+        if(amount <= limitExchange || limitExchange == 0) {
+            for (int i = 0; i < titleCurrencies.length; i++) {
+                if (buyCurrency.contains(titleCurrencies[i])) {
+                    result = (amount - commissionExchange) / sellCurrencies[i];
                     break;
                 }
             }
-            System.out.println(result + " " + cbuy);
         }else{
-            System.out.println("You are exceed limit in 150 000 uah:)");
+            System.out.println("You are exceed limit in 150 000 uah:)");//під питанням
         }
-
-
+        return result;
     }
 
-    void changeToUah(double amount, String csell, String cbuy){
+    @Override
+    public double changeToUah(double amount, String sellCurrency){
         double result = 0;
-        for(int i = 0; i < titleCurrency.length; i++) {
-            if(csell.contains(titleCurrency[i])) {
-                result = amount * sellCurrency[i];
-                result = result - commission;
+        for(int i = 0; i < titleCurrencies.length; i++) {
+            if(sellCurrency.contains(titleCurrencies[i])) {
+                result = amount * buyCurrencies[i];
+                result = result - commissionExchange;
                 break;
             }
         }
-        if(result != limit) {
-            System.out.println(result + " " + cbuy);
-        }else{
+        if(result > limitExchange || limitExchange != 0) {
             System.out.println("You are exceed limit in 150 000 uah:)");
+            result = 0;
         }
+        return result;
     }
 
-    void credit (double amount) {
-        double limit = 200000;//uah
-        double percent = 0.15;
-
-        if(amount != limit){
-
+    @Override
+    public double credit (double amount) {
+        double result = 0;
+        if(amount < limitCredit){
+            result = amount * commissionCredit;
         }
+        return result;
     }
 
-    void investment (double amount) {
-        double term = 12;//month
+    @Override
+    public double investment(double period) {
+        double result = 0;
+        if(period < periodInvestment) {
+            result = 1 / percentInvestment;
+        }
+        return result;
     }
 
-    void forward (double amount) { //переслати
-        double commission = amount * 0.01 + 25;
-        double result = amount - commission;
+    @Override
+    public double transfer (double amount) { //переслати
+        double result = 0;
+        double commission = amount * commissionPercentTransfer + commissionUahTransfer;
+        result = amount - commission;
+        return result;
+    }
+
+    @Override
+    public void getInfo(){
+        System.out.println(title);
+        System.out.println(address);
+        System.out.println(year);
+        System.out.println("Покупка/продажа валюти: ");
+        System.out.println("ліміт: " + limitExchange + " uah " + "комісія: " + commissionExchange + " uah");
+        System.out.println("Кредит: ");
+        System.out.println("ліміт: " + limitCredit + "відсоток: " + commissionCredit);//доробити
+        System.out.println("Інвестиції: ");
+        System.out.println("термін: " + periodInvestment + "депозит: " + percentInvestment);
+        System.out.println("Пересилання: ");
+        System.out.println("комісія: " + commissionPercentTransfer + " + " + commissionUahTransfer);
     }
 }

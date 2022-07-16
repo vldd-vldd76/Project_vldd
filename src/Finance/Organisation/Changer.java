@@ -1,44 +1,84 @@
 package Finance.Organisation;
 
-public class Changer extends TopClass {
-    String title = "Обменка";
-    String address = "вул. Тринклера 23А";
+import Finance.Interface.BaseMethods;
+import Finance.Interface.ExchangeMethods;
 
-    String [] titleCurrency;
-    double [] buyCurrency;
-    double [] sellCurrency;
+public class Changer extends BaseMethods implements ExchangeMethods {
+    String title;
+    String address;
 
-    void title(String title){
+    double limitExchange;
+    double commissionExchange;
+
+    String [] titleCurrencies;
+    double [] buyCurrencies;
+    double [] sellCurrencies;
+    @Override
+    public void setData(String title, String address, String year){
         this.title = title;
-    }
-
-    void address(String address){
         this.address = address;
     }
 
-    void introduceAnExchangeRate(String [] titleCurrency, double [] buyCurrency, double [] sellCurrency){
-        this.titleCurrency = titleCurrency;
-        this.buyCurrency = buyCurrency;
-        this.sellCurrency = sellCurrency;
+    @Override
+    public void setDataExchange(double limit, double commission){
+        this.limitExchange = limit;
+        this.commissionExchange = commission;
     }
 
-    void changeFromUah (double amount, String cbuy) {
-        double result = 0;
-        for(int i = 0; i < titleCurrency.length; i++) {
-            if(cbuy.contains(titleCurrency[i])) {
-                result = amount / sellCurrency[i];
-            }
-        }
-        System.out.println(result + " " + cbuy);
+    @Override
+    public void setAnExchangeRate(String [] titleCurrency, double [] buyCurrency, double [] sellCurrency){
+        this.titleCurrencies = titleCurrency;
+        this.buyCurrencies = buyCurrency;
+        this.sellCurrencies = sellCurrency;
     }
 
-    void changeToUah(double amount, String csell, String cbuy){
+    @Override
+    public String [] getTitleCurrencies(){
+        return titleCurrencies;
+    }
+
+    @Override
+    public String getTitleCurrencies(int index){
+        return titleCurrencies[index];
+    }
+
+    @Override
+    public double changeFromUah (double amount, String buyCurrency) {
         double result = 0;
-        for(int i = 0; i < titleCurrency.length; i++) {
-            if(csell.contains(titleCurrency[i])) {
-                result = amount * buyCurrency[i];
+        if(amount <= limitExchange || limitExchange == 0) {
+            for (int i = 0; i < titleCurrencies.length; i++) {
+                if (buyCurrency.contains(titleCurrencies[i])) {
+                    result = (amount - commissionExchange) / sellCurrencies[i];
+                    break;
+                }
+            }
+        }else{
+            System.out.println("You are exceed limit in 150 000 uah:)");//під питанням
+        }
+        return result;
+    }
+
+    @Override
+    public double changeToUah(double amount, String sellCurrency){
+        double result = 0;
+        for(int i = 0; i < titleCurrencies.length; i++) {
+            if(sellCurrency.contains(titleCurrencies[i])) {
+                result = amount * buyCurrencies[i];
+                result = result - commissionExchange;
+                break;
             }
         }
-        System.out.println(result + " " + cbuy);
+        if(result > limitExchange || limitExchange != 0) {
+            System.out.println("You are exceed limit in 150 000 uah:)");
+            result = 0;
+        }
+        return result;
+    }
+
+    @Override
+    public void getInfo(){
+        System.out.println(title);
+        System.out.println(address);
+        System.out.println("кросс-курс не передбачен");
     }
 }
