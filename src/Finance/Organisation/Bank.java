@@ -136,9 +136,9 @@ public class Bank extends BaseMethods implements ExchangeMethods, CreditMethods,
         System.out.println("Покупка/продажа валюти: ");
         System.out.println("ліміт: " + limitExchange + " uah " + "комісія: " + commissionExchange + " uah");
         System.out.println("Кредит: ");
-        System.out.println("ліміт: " + limitCredit + "відсоток: " + commissionCredit);//доробити
+        System.out.println("ліміт: " + limitCredit + " відсоток: " + commissionCredit);//доробити
         System.out.println("Інвестиції: ");
-        System.out.println("термін: " + periodInvestment + "депозит: " + percentInvestment);
+        System.out.println("термін: " + periodInvestment + " депозит: " + percentInvestment);
         System.out.println("Пересилання: ");
         System.out.println("комісія: " + commissionPercentTransfer + " + " + commissionUahTransfer);
     }

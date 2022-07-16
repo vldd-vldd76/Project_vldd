@@ -79,6 +79,7 @@ public class Changer extends BaseMethods implements ExchangeMethods {
     public void getInfo(){
         System.out.println(title);
         System.out.println(address);
-        System.out.println("кросс-курс не передбачен");
+        System.out.println("Покупка/продажа валюти: ");
+        System.out.println("ліміт: " + limitExchange + " uah " + "комісія: " + commissionExchange + " uah");
     }
 }

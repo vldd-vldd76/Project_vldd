@@ -35,6 +35,6 @@ public class InvestmentFund extends BaseMethods implements InvestmentMethods {
         System.out.println(address);
         System.out.println(year);
         System.out.println("Інвестиції: ");
-        System.out.println("термін: " + periodInvestment + "депозит: " + percentInvestment);
+        System.out.println("термін: " + periodInvestment + " депозит: " + percentInvestment);
     }
 }

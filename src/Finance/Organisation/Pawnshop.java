@@ -37,6 +37,6 @@ public class Pawnshop extends BaseMethods implements CreditMethods {
         System.out.println(title);
         System.out.println(address);
         System.out.println("Кредит: ");
-        System.out.println("ліміт: " + limitCredit + "відсоток: " + commissionCredit);
+        System.out.println("ліміт: " + limitCredit + " відсоток: " + commissionCredit);
     }
 }
