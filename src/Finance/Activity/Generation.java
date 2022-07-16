@@ -17,7 +17,7 @@ public class Generation {
             bank.setDataExchange(150000, 15);
             bank.setDataCredit(200000, 0.25);
             bank.setDataInvestment(0.03, 12);
-            bank.setDataTransfer(0.01, 25);//не правильно, повинна бути коміссію 1% від суми + 25 грн
+            bank.setDataTransfer(0.01, 25);
 
             String[] titleCurrency = {"usd", "eur", "rub"};
             double[] buyCurrency = {27.8, 32.02, 0.350};
@@ -33,10 +33,10 @@ public class Generation {
 
             bank.setData("ОщадБанк", "вул. Римарська 34", "1990");
 
-            bank.setDataExchange(150000, 15);
-            bank.setDataCredit(200000, 0.25);
+            bank.setDataExchange(100000, 10);
+            bank.setDataCredit(150000, 0.22);
             bank.setDataInvestment(0.03, 12);
-            bank.setDataTransfer(0.01, 25);//не правильно, повинна бути коміссію 1% від суми + 25 грн
+            bank.setDataTransfer(0.01, 25);
 
             String[] titleCurrency = {"usd", "eur", "rub"};
             double[] buyCurrency = {27.8, 32.02, 0.350};
